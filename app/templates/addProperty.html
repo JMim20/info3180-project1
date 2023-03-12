@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+<h1>Add New Property</h1>
+
+<form method="post" action="{{url_for('')}}">
+  {{ form.csrf_token }}
+  
+  {% include 'flash_messages.html' %}
+
+  <div class="form-pHeaders">
+    {{ form.pTile.label() }} {{ form.pTile(class='form-control') }}
+  </div>
+
+  <div class="form-pHeaders">
+    {{ form.description.label() }} {{ form.description(class='form-control') }}
+  </div>
+
+  <div class="form-pHeaders">
+    {{ form.numBedrooms.label() }} {{ form.numBedrooms(class='form-control') }}
+  </div>
+
+  <div class="form-pHeaders">
+    {{ form.numBathrooms.label() }} {{ form.numBathrooms(class='form-control') }}
+  </div>
+
+  <div class="form-pHeaders">
+    {{ form.price.label() }} {{ form.price(class='form-control') }}
+  </div>
+
+  <div class="form-pHeaders">
+    {{ form.pType.label() }} {{ form.pType(class='form-control') }}
+  </div>
+
+  <div class="form-pHeaders">
+    {{ form.location.label() }} {{ form.location(class='form-control') }}
+  </div>
+
+  <div class="form-pHeaders">
+    {{ form.photo.label() }} {{ form.photo(class='form-control') }}
+  </div>
+  
+  <button class="btn btn-lg btn-primary w-100 mt-3" type="submit">Add Property</button>
+</form>
+{% endblock %}
+
+
+
+    
