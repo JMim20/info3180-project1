@@ -4,13 +4,13 @@
 
 <h1>Add New Property</h1>
 
-<form method="post" action="{{url_for('')}}">
+<form method="post" action="{{url_for('create_property')}}" enctype="multipart/form-data">
   {{ form.csrf_token }}
   
   {% include 'flash_messages.html' %}
 
   <div class="form-pHeaders">
-    {{ form.pTile.label() }} {{ form.pTile(class='form-control') }}
+    {{ form.pTitle.label() }} {{ form.pTitle(class='form-control') }}
   </div>
 
   <div class="form-pHeaders">
@@ -18,11 +18,11 @@
   </div>
 
   <div class="form-pHeaders">
-    {{ form.numBedrooms.label() }} {{ form.numBedrooms(class='form-control') }}
+    {{ form.number_of_bedrooms.label() }} {{ form.number_of_bedrooms(class='form-control') }}
   </div>
 
   <div class="form-pHeaders">
-    {{ form.numBathrooms.label() }} {{ form.numBathrooms(class='form-control') }}
+    {{ form.number_of_bathrooms.label() }} {{ form.number_of_bathrooms(class='form-control') }}
   </div>
 
   <div class="form-pHeaders">
@@ -30,7 +30,7 @@
   </div>
 
   <div class="form-pHeaders">
-    {{ form.pType.label() }} {{ form.pType(class='form-control') }}
+    {{ form.property_type.label() }} {{ form.property_type(class='form-control') }}
   </div>
 
   <div class="form-pHeaders">

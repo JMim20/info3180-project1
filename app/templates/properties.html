@@ -6,11 +6,11 @@
     <h1>Properites</h1>
     <div class="uploaded-properties">
         <ul class="grid-list">
-            {% for property_image in property_images %}
+            {% for property in properties %}
             <div class="each-prperty">
-                <img src="{{ property_image}}" />
-                <!-- <img src="{{ url_for('get_uploaded_file', filename=filename) }}" />  -->
-                <h3><strong> {{pTile}} </strong></h3>
+                <img class="card-img-top" height="290px" src="{{ url_for('get_image', filename=property.photo) }}" alt="Property Photo">
+                
+                <h3><strong> {{pTitle}} </strong></h3>
                 <p> {{location}} </p>
                 <p class="priceP"> {{price}} </p>
                 <button class="property-view"> View Property </button>

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+    <div class="view-properties">
+
+        <div class="col-md-6">
+            <img src="{{ property_image}}"  alt="Image of Property"/>
+        </div>
+        <h2 class="propertyTitle"><strong> {{pTitle}} </strong></h2>
+        <p class="priceP"> {{price}} </p>
+        <p class="priceType"> {{property_type}} </p>
+        <p class=" number_of_bedrooms"> {{number_of_bedrooms}} </p>
+        <p class="number_of_bathrooms"> {{number_of_bathrooms}} </p>
+        <p class="location"> {{location}} </p>
+        <button class="property-view"> Email Realtor </button>
+    </div>
+
+{% endblock %}

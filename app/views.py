@@ -4,13 +4,13 @@ Jinja2 Documentation:    https://jinja.palletsprojects.com/
 Werkzeug Documentation:  https://werkzeug.palletsprojects.com/
 This file contains the routes for your application.
 """
-
-from app import app
-from flask import render_template, request, redirect, url_for,send_from_directory
+import os
+from app import app, db
+from flask import render_template, request, redirect, url_for,flash,send_from_directory
 from werkzeug.utils import secure_filename
-from app.forms import AddPrpertyForm
 from .models import PropertyProfile
 from .forms import AddPrpertyForm
+
 
 ###
 # Routing for your application.
@@ -25,66 +25,59 @@ def home():
 @app.route('/about/')
 def about():
     """Render the website's about page."""
-    return render_template('about.html', name="Mary Jane")
+    return render_template('about.html', name="Jamila McGowan")
 
-###
-# Added functions for project 1
-###
-
-@app.route('"/properties/create', methods=['GET','POST'])
+@app.route('/properties/create', methods=['GET', 'POST'])
 def create_property():
     form = AddPrpertyForm()
-    if request.method == 'POST':
-        if form.validate_on_submit():
-            
-            pTile=form.pTile.data
-            description=form.description.data
-            numBedrooms=form.numBedrooms.data
-            numBathrooms=form.numBathrooms.data
-            price=form.price.data
-            pType=form.pType.data
-            location=form.location.data
-            
-            photo=form.photo.data
-            filename= secure_filename(photo.filename)
-            photo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            
-            addedProperty= (pTile, description, numBedrooms, numBathrooms, price, pType, location, filename)
-            db = connect_db()
-            cur = db.cursor()
-            cur.execute('insert into PropertyProfile(property_title, description, number_of_bedrooms, number_of_bathrooms, price, property_type, location, photo_name ) values (%s, %s, %s, %s, %s, %s, %s, %s)', addedProperty)
-    
-            db.commit()
+    #if request.method == 'POST':
+    if form.validate_on_submit():
+        
+        photo_upld=form.photo.data
+        filename= secure_filename(photo_upld.filename)
+        photo_upld.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-            flash('Form Submitted Successfuly!', 'success')
-            return render_template('properties.html', 
-            pTile=pTile,
-            description=description,
-            numBedrooms=numBedrooms,
-            numBathrooms=numBathrooms,
-            price=price,
-            pType=pType,
-            location=location,
-            filename=filename)
+        pTitle=form.pTitle.data
+        description=form.description.data
+        number_of_bedrooms=form.number_of_bedrooms.data
+        number_of_bathrooms=form.number_of_bathrooms.data
+        price=form.price.data
+        property_type=form.property_type.data
+        location=form.location.data
+        photo_upld=filename
 
+        addedProperty= PropertyProfile(pTitle, description, number_of_bedrooms, number_of_bathrooms, price, property_type, location, photo_upld)
+        db.session.add(addedProperty)
+        db.session.commit()
+        # db = connect_db()
+        # cur = db.cursor()
+        # cur.execute('insert into PropertyProfile(property_title, description, number_of_bedrooms, number_of_bathrooms, price, property_type, location, photo_name ) values (%s, %s, %s, %s, %s, %s, %s, %s)', addedProperty)
+        flash('Form Submitted Successfuly!', 'success')
+        redirect(url_for('properties'))
     flash_errors(form)
-    return render_template('addProperty.html', form=form)
+    return render_template('add_property.html', form=form)
 
-def get_property_images():
+""" def get_property_images():
     pImage_dir = os.path.join(os.getcwd(), app.config['UPLOAD_FOLDER'])
     filenames = []
-    for filename in os.listdir(uploads_dir):
-        if os.path.isfile(os.path.join(uploads_dir, filename)):
+    for filename in os.listdir(pImage_dir):
+        if os.path.isfile(os.path.join(pImage_dir, filename)):
             filenames.append(filename)
-    return filenames 
+    return filenames """ 
 
-#app.route('/uploads/<filename>')
+app.route('/uploads/<filename>')
 def get_image(filename):
 
     return send_from_directory(os.path.join(os.getcwd(), app.config['UPLOAD_FOLDER']), filename)
 
-
 @app.route('/properties')
+def properties():
+    # fileNames = get_property_images()
+    # property_images = [url_for('get_image', filename=filename) for filename in fileNames if filename.endswith(('.jpg', '.JPG', '.png', '.PNG'))]
+    properties  = db.session.execute(db.select(PropertyProfile)).scalars()
+    return render_template('properties.html', properties=properties)
+
+""" @app.route('/properties')
 def properties():
 
 
@@ -97,13 +90,15 @@ def properties():
     id desc')
     eProperty = cur.fetchall()
     return render_template('properties.html', property_images=property_images, eProperty=eProperty)
+ """
 
+@app.route('/properties/<propertyid>')
+def view_property(propertyid):
+    propertyid = int(propertyid)
+    selected_property = db.session.execute(db.select(PropertyProfile).filter_by(id=propertyid )).scalar_one()
+    if selected_property:
+        return render_template('property.html', selected_property=selected_property)
 
-# @app.route("/uploads/<filename>")
-# def get_uploaded_file(filename):
-#     root_dir = os.getcwd()
-
-#     return send_from_directory(os.path.join(root_dir, app.config['UPLOAD_FOLDER']), filename)
 
 ###
 # The functions below should be applicable to all Flask apps.
