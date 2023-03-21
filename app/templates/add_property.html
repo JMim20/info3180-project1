@@ -9,11 +9,11 @@
   
   {% include 'flash_messages.html' %}
 
-  <div class="form-pHeaders">
+  <div class="form-pHeaders" id="title">
     {{ form.pTitle.label() }} {{ form.pTitle(class='form-control') }}
   </div>
 
-  <div class="form-pHeaders">
+  <div class="form-pHeaders" id="description">
     {{ form.description.label() }} {{ form.description(class='form-control') }}
   </div>
 
@@ -41,7 +41,7 @@
     {{ form.photo.label() }} {{ form.photo(class='form-control') }}
   </div>
   
-  <button class="btn btn-lg btn-primary w-100 mt-3" type="submit">Add Property</button>
+  <button class="addPropertyBtn" type="submit">Add Property</button>
 </form>
 {% endblock %}
 

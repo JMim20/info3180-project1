@@ -30,67 +30,40 @@ def about():
 @app.route('/properties/create', methods=['GET', 'POST'])
 def create_property():
     form = AddPrpertyForm()
-    #if request.method == 'POST':
-    if form.validate_on_submit():
-        
-        photo_upld=form.photo.data
-        filename= secure_filename(photo_upld.filename)
-        photo_upld.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            photo_upld=form.photo.data
+            filename= secure_filename(photo_upld.filename)
+            photo_upld.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-        pTitle=form.pTitle.data
-        description=form.description.data
-        number_of_bedrooms=form.number_of_bedrooms.data
-        number_of_bathrooms=form.number_of_bathrooms.data
-        price=form.price.data
-        property_type=form.property_type.data
-        location=form.location.data
-        photo_upld=filename
+            pTitle=form.pTitle.data
+            description=form.description.data
+            number_of_bedrooms=form.number_of_bedrooms.data
+            number_of_bathrooms=form.number_of_bathrooms.data
+            price=form.price.data
+            property_type=form.property_type.data
+            location=form.location.data
+            photo_upld=filename
 
-        addedProperty= PropertyProfile(pTitle, description, number_of_bedrooms, number_of_bathrooms, price, property_type, location, photo_upld)
-        db.session.add(addedProperty)
-        db.session.commit()
-        # db = connect_db()
-        # cur = db.cursor()
-        # cur.execute('insert into PropertyProfile(property_title, description, number_of_bedrooms, number_of_bathrooms, price, property_type, location, photo_name ) values (%s, %s, %s, %s, %s, %s, %s, %s)', addedProperty)
-        flash('Form Submitted Successfuly!', 'success')
-        redirect(url_for('properties'))
+            addedProperty= PropertyProfile(pTitle, description, number_of_bedrooms, number_of_bathrooms, price, property_type, location, photo_upld)
+            db.session.add(addedProperty)
+            db.session.commit()
+            # db = connect_db()
+            # cur = db.cursor()
+            # cur.execute('insert into PropertyProfile(property_title, description, number_of_bedrooms, number_of_bathrooms, price, property_type, location, photo_name ) values (%s, %s, %s, %s, %s, %s, %s, %s)', addedProperty)
+            flash('Form Submitted Successfuly!', 'success')
+            return redirect(url_for('properties'))
     flash_errors(form)
     return render_template('add_property.html', form=form)
 
-""" def get_property_images():
-    pImage_dir = os.path.join(os.getcwd(), app.config['UPLOAD_FOLDER'])
-    filenames = []
-    for filename in os.listdir(pImage_dir):
-        if os.path.isfile(os.path.join(pImage_dir, filename)):
-            filenames.append(filename)
-    return filenames """ 
 
-app.route('/uploads/<filename>')
-def get_image(filename):
 
-    return send_from_directory(os.path.join(os.getcwd(), app.config['UPLOAD_FOLDER']), filename)
 
 @app.route('/properties')
 def properties():
-    # fileNames = get_property_images()
-    # property_images = [url_for('get_image', filename=filename) for filename in fileNames if filename.endswith(('.jpg', '.JPG', '.png', '.PNG'))]
-    properties  = db.session.execute(db.select(PropertyProfile)).scalars()
-    return render_template('properties.html', properties=properties)
+    vproperties= db.session.execute(db.select(PropertyProfile)).scalars()
+    return render_template('properties.html', vproperties=vproperties)
 
-""" @app.route('/properties')
-def properties():
-
-
-    fileNames = get_property_images()
-    property_images = [url_for('get_image', filename=filename) for filename in fileNames if filename.endswith(('.jpg', '.JPG', '.png', '.PNG'))]
-
-    db = connect_db()
-    cur = db.cursor()
-    cur.execute('select property_title, description, number_of_bedrooms, number_of_bathrooms, price, property_type, location, photo_name from PropertyProfile order by
-    id desc')
-    eProperty = cur.fetchall()
-    return render_template('properties.html', property_images=property_images, eProperty=eProperty)
- """
 
 @app.route('/properties/<propertyid>')
 def view_property(propertyid):
@@ -99,6 +72,10 @@ def view_property(propertyid):
     if selected_property:
         return render_template('property.html', selected_property=selected_property)
 
+app.route('/uploads/<filename>')
+def get_image(filename):
+
+    return send_from_directory(os.path.join(os.getcwd(), app.config['UPLOAD_FOLDER']), filename)
 
 ###
 # The functions below should be applicable to all Flask apps.
