@@ -8,11 +8,11 @@
         <ul class="grid-list">
             {% for vproperty in vproperties %}
             <div class="each-prperty">
-                <img class="card-img-top" height="290px" src="{{vproperty.photo}}" alt="Property Photo">
-                <h3><strong> {{vproperty.pTitle}} </strong></h3>
-                <p> {{vproperty.location}} </p>
-                <p class="priceP"> {{vproperty.price}} </p>
-                <button class="property-view"> View Property </button>
+                <img class="card-img-top" height="290px" src="{{ image_files }}" alt="Property Photo">
+                <h3 class="vpTitle"> {{vproperty.pTitle}}</h3>
+                <p class="vlocation"> <img src="{{ url_for('static', filename='locationIcon.png') }}" class="icon" alt="Location icon">{{vproperty.location}} </p>
+                <div class="divider"> <p class="priceP"> ${{vproperty.price}} </p></div>
+                <a href="{{ url_for('view_property', propertyid=vproperty.id) }}" button type="button" class="viewPbtn">View Property</a>
             </div>
         {% endfor %}
         </ul>

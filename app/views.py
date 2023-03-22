@@ -57,12 +57,30 @@ def create_property():
     return render_template('add_property.html', form=form)
 
 
+def get_uploaded_images():
+    uploads_dir = os.path.join(os.getcwd(), app.config['UPLOAD_FOLDER'])
+    filenames = []
+    for filename in os.listdir(uploads_dir):
+        if os.path.isfile(os.path.join(uploads_dir, filename)):
+            filenames.append(filename)
+    return filenames 
 
+@app.route('/uploads/<filename>')
+def get_image(filename):
+
+    return send_from_directory(os.path.join(os.getcwd(), app.config['UPLOAD_FOLDER']), filename)
+
+ 
+def u_images():
+    fileNames = get_uploaded_images()
+    image_files = [url_for('get_image', filename=filename) for filename in fileNames if filename.endswith(('.jpg', '.JPG', '.png', '.PNG'))]
+    return (image_files)
 
 @app.route('/properties')
 def properties():
+    eimages=u_images()
     vproperties= db.session.execute(db.select(PropertyProfile)).scalars()
-    return render_template('properties.html', vproperties=vproperties)
+    return render_template('properties.html', vproperties=vproperties, eimages=eimages)
 
 
 @app.route('/properties/<propertyid>')
@@ -73,9 +91,9 @@ def view_property(propertyid):
         return render_template('property.html', selected_property=selected_property)
 
 app.route('/uploads/<filename>')
-def get_image(filename):
+def get_image(vfilename):
 
-    return send_from_directory(os.path.join(os.getcwd(), app.config['UPLOAD_FOLDER']), filename)
+    return send_from_directory(os.path.join(os.getcwd(), app.config['UPLOAD_FOLDER']), vfilename)
 
 ###
 # The functions below should be applicable to all Flask apps.

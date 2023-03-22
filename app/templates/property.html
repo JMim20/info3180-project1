@@ -5,15 +5,16 @@
     <div class="view-properties">
 
         <div class="col-md-6">
-            <img src="{{ property_image}}"  alt="Image of Property"/>
+            <img src="{{ selected_property.photo}}" id="eImg" alt="Image of Property"/>
         </div>
-        <h2 class="propertyTitle"><strong> {{pTitle}} </strong></h2>
-        <p class="priceP"> {{price}} </p>
-        <p class="priceType"> {{property_type}} </p>
-        <p class=" number_of_bedrooms"> {{number_of_bedrooms}} </p>
-        <p class="number_of_bathrooms"> {{number_of_bathrooms}} </p>
-        <p class="location"> {{location}} </p>
-        <button class="property-view"> Email Realtor </button>
+        <h2 class="propertyTitle"> {{selected_property.pTitle}}</h2>
+        <p class="epriceP"> ${{selected_property.price}} </p>
+        <p class="epriceType"> {{selected_property.property_type}} </p>
+        <p class="edescription"> {{selected_property.description}} </p>
+        <p class=" enumber_of_bedrooms"><img src="{{ url_for('static', filename='bedIcon.png') }}" class="icon" alt="Bed icon">{{selected_property.number_of_bedrooms}} </p>
+        <p class="enumber_of_bathrooms"><img src="{{ url_for('static', filename='bathIcon.png') }}" class="icon" alt="Bath icon"> {{selected_property.number_of_bathrooms}} </p>
+        <p class="elocation"> <img src="{{ url_for('static', filename='locationIcon.png') }}" class="icon" alt="Location icon">{{selected_property.location}} </p>
+        <button class="emailRealtor_btn"> Email Realtor </button>
     </div>
 
 {% endblock %}
