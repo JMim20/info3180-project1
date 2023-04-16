@@ -43,9 +43,9 @@ def create_property():
             price=form.price.data
             property_type=form.property_type.data
             location=form.location.data
-            photo_upld=filename
+            photo_data=filename
 
-            addedProperty= PropertyProfile(pTitle, description, number_of_bedrooms, number_of_bathrooms, price, property_type, location, photo_upld)
+            addedProperty= PropertyProfile(pTitle, description, number_of_bedrooms, number_of_bathrooms, price, property_type, location, photo_data)
             db.session.add(addedProperty)
             db.session.commit()
             # db = connect_db()
@@ -80,7 +80,7 @@ def u_images():
 def properties():
     eimages=u_images()
     vproperties= db.session.execute(db.select(PropertyProfile)).scalars()
-    return render_template('properties.html', vproperties=vproperties, eimages=eimages)
+    return render_template('properties.html', vproperties=vproperties,eimages=eimages)
 
 
 @app.route('/properties/<propertyid>')

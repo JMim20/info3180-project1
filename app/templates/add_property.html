@@ -16,32 +16,56 @@
   <div class="form-pHeaders" id="description">
     {{ form.description.label() }} {{ form.description(class='form-control') }}
   </div>
-
-  <div class="form-pHeaders" id="numBed">
+  <div class="row g-3">
+    <div class="col">
+      {{ form.number_of_bedrooms.label() }} 
+      {{ form.number_of_bedrooms(class='form-control')  }}
+    </div>
+    <div class="col">
+      {{ form.number_of_bathrooms.label() }} 
+      {{ form.number_of_bathrooms(class='form-control')  }}
+    </div>
+  </div>
+  <!-- <div class="form-pHeaders" id="numBed">
     {{ form.number_of_bedrooms.label() }} {{ form.number_of_bedrooms(class='form-control') }}
   </div>
 
   <div class="form-pHeaders" id="numBath">
     {{ form.number_of_bathrooms.label() }} {{ form.number_of_bathrooms(class='form-control') }}
+  </div> -->
+
+  <div class="row g-3">
+    <div class="col">
+      {{ form.price.label() }} 
+      {{ form.price(class='form-control')  }}
+    </div>
+    <div class="col">
+      {{ form.property_type.label() }}
+       {{ form.property_type(class='form-select') }}
+    </div>
   </div>
 
-  <div class="form-pHeaders" id="formPrice">
+  <!-- <div class="form-pHeaders" id="formPrice">
     {{ form.price.label() }} {{ form.price(class='form-control') }}
   </div>
 
   <div class="form-pHeaders" id="FormPropertyType">
     {{ form.property_type.label() }} {{ form.property_type(class='form-control') }}
   </div>
-
-  <div class="form-pHeaders">
-    {{ form.location.label() }} {{ form.location(class='form-control') }}
-  </div>
-
-  <div class="form-pHeaders">
-    {{ form.photo.label() }} {{ form.photo(class='form-control') }}
+ -->
+  <div class="row g-3">
+    <div class="col-6">
+      {{ form.location.label() }} {{ form.location(class='form-control' )  }}
+    </div>
   </div>
   
-  <button class="addPropertyBtn" type="submit">Add Property</button>
+  <div class="row g-3">
+    <div class="col-3">
+      {{ form.photo.label() }} {{ form.photo(class='form-control')  }}
+    </div>
+  </div>
+  
+  <button class="btn btn-primary " type="submit">Add Property</button>
 </form>
 {% endblock %}
 

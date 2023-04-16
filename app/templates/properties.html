@@ -3,19 +3,29 @@
 {% block main %}
 
     {% include 'flash_messages.html' %} 
-    <h1>Properites</h1>
-    <div class="uploaded-properties">
-        <ul class="grid-list">
+    <div class="container">
+        <h1>Properites</h1>
+        <div class="row g-5 justify-content-evenly">
             {% for vproperty in vproperties %}
-            <div class="each-prperty">
-                <img class="card-img-top" height="290px" src="{{ image_files }}" alt="Property Photo">
-                <h3 class="vpTitle"> {{vproperty.pTitle}}</h3>
-                <p class="vlocation"> <img src="{{ url_for('static', filename='locationIcon.png') }}" class="icon" alt="Location icon">{{vproperty.location}} </p>
-                <div class="divider"> <p class="priceP"> ${{vproperty.price}} </p></div>
-                <a href="{{ url_for('view_property', propertyid=vproperty.id) }}" button type="button" class="viewPbtn">View Property</a>
-            </div>
-        {% endfor %}
-        </ul>
+                <div class="col-4">
+                    <div class="card">
+                        <img class=" card-img card-img-top img-fluid"  src="{{url_for('get_image', filename=vproperty.photo) }}" alt="Property Photo">
+                        <div class="card-body d-flex flex-column">
+                            <div class="h-100">
+                                <h5 class="card-title"> {{vproperty.pTitle}}</h5>
+                                <p class="card-text"> <img src="{{ url_for('static', filename='locationIcon.png') }}" class="icon" alt="Location icon">{{vproperty.location}} </p>
+                                <div class="col-8">
+                                    <p class="card-text text-bg-primary price"> ${{vproperty.price}}</p>
+                                </div>
+                                <div class="col">
+                                    <a href="{{ url_for('view_property', propertyid=vproperty.id) }}" class="btn btn-secondary col-12" role="button">View Property</a>
+                                </div>
+                            </div> 
+                        </div> 
+                    </div>
+                </div>
+            {% endfor %}
+        
     </div>
 
 {% endblock %}
